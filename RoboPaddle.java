@@ -49,7 +49,7 @@ public class RoboPaddle extends Actor
     private void createImage()
     {
         GreenfootImage image = new GreenfootImage(width, height);
-        image.setColor(Color.BLACK);
+        image.setColor(Color.BLUE);
         image.fill();
         setImage(image);
     }
