@@ -13,7 +13,8 @@ public class Paddle extends Actor
     private int height;
     private int dx;
     private int paddleSpeed = 3;
-    public Paddle paddle;
+    
+    
     /**
      * Constructs a new paddle with the given dimensions.
      */
@@ -24,35 +25,35 @@ public class Paddle extends Actor
         dx = 1;
         createImage();
     }
-
-    /**
-     * Act - do whatever the Paddle wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
+    //FOR SECOND PADDLE
+    //tryChangeDirection();
+    //setLocation(getX() + dx, getY());
     public void act() 
     {
         movementKeys();
-        //robotMovement();
-        //setLocation(getX() + dx, getY());
     }    
-    
-    public void robotMovement(){
+    private void movementKeys()
+    {
+        if (Greenfoot.isKeyDown("left")){
+            move(paddleSpeed * - 1);
+        }
+        
+        if (Greenfoot.isKeyDown("right")){
+            move(paddleSpeed);
+        }
+    }
+
+    /**
+     * Will rotate the paddle 180 degrees if the paddle is at worlds edge.
+     */
+    private void tryChangeDirection()
+    {
         //Check to see if we are touching the outer boundaries of the world:
         // IF we are touching the right boundary OR we are touching the left boundary:
         if(getX() + width/2 >= getWorld().getWidth() || getX() - width/2 <= 0)
         {
             //Change our 'x' direction to the inverted direction:
             dx = dx * -1;
-            //setLocation(getX() + dx, getY());
-        }
-    }
-    
-    private void movementKeys(){
-        if  (Greenfoot.isKeyDown("left")){
-            move(paddleSpeed * -1);
-        }
-        if  (Greenfoot.isKeyDown("right")){
-            move(paddleSpeed);
         }
     }
 
@@ -62,7 +63,7 @@ public class Paddle extends Actor
     private void createImage()
     {
         GreenfootImage image = new GreenfootImage(width, height);
-        image.setColor(Color.BLACK);
+        image.setColor(Color.PINK);
         image.fill();
         setImage(image);
     }

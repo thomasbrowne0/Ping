@@ -13,7 +13,8 @@ public class RoboPaddle extends Actor
     private int height;
     private int dx;
     private int paddleSpeed = 3;
-    private int randomY = Greenfoot.getRandomNumber(500)+40; //get random value Y between 40px and 540px
+    private int randomY = Greenfoot.getRandomNumber(500)+ 40;
+    
     /**
      * Constructs a new paddle with the given dimensions.
      */
@@ -24,22 +25,23 @@ public class RoboPaddle extends Actor
         dx = 1;
         createImage();
     }
-
-    /**
-     * Act - do whatever the RoboPaddle wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
+    //FOR SECOND PADDLE
+    //tryChangeDirection();
+    //setLocation(getX(0) + dx, get(600));
     public void act() 
     {
-        robotMovement();
+        robotMovement();  
     }    
-    
-    private void robotMovement(){
+  
+    private void robotMovement()
+    {
         move(2);
         if(getX()>= 499){
-            setLocation(1, Greenfoot.getRandomNumber(randomY));
+            setLocation (1,Greenfoot. getRandomNumber(randomY));
         }
+        
     }
+
 
     /**
      * Creates and sets an image for the paddle, the image will have the same dimensions as the paddles width and height.

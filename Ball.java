@@ -14,10 +14,11 @@ public class Ball extends Actor
     private static final int STARTING_ANGLE_WIDTH = 90;
     private static final int DELAY_TIME = 100;
 
-    private int speed;
+    private int Speed;
     private boolean hasBouncedHorizontally;
     private boolean hasBouncedVertically;
     private int delay;
+    private Paddle paddle;
 
     /**
      * Contructs the ball and sets it in motion!
@@ -34,7 +35,7 @@ public class Ball extends Actor
     private void createImage()
     {
         GreenfootImage ballImage = new GreenfootImage(BALL_SIZE,BALL_SIZE);
-        ballImage.setColor(Color.BLUE);
+        ballImage.setColor(Color.BLACK);
         ballImage.fillOval(0, 0, BALL_SIZE, BALL_SIZE);
         setImage(ballImage);
     }
@@ -51,12 +52,18 @@ public class Ball extends Actor
         }
         else
         {
-            move(speed);
+            move(Speed);
             checkBounceOffWalls();
             checkBounceOffCeiling();
+            checkBounceOffPaddle();
             checkRestart();
         }
     }    
+    
+    private boolean isTouchingPaddle(){
+        return (getX() <= BALL_SIZE/2 || getX() >= getWorld().getWidth() - BALL_SIZE/2);
+    }
+        
 
     /**
      * Returns true if the ball is touching one of the side walls.
@@ -119,15 +126,23 @@ public class Ball extends Actor
             hasBouncedVertically = false;
         }
     }
-
-    private void checkBounceOffPaddle(){
-        if(getWorld().getBackground().getColorAt(getX(), getY()).equals(Color.BLACK)){
-            revertHorizontally();
+    
+    public void checkBounceOffPaddle()
+    {
+        Actor paddle = getOneIntersectingObject(Paddle.class);
+        if(paddle != null)
+          {
+            if (! hasBouncedVertically)
+            {
+                revertVertically();
+            }
+        }
+        else
+        {
+            hasBouncedVertically = false;
         }
     }
-    //private boolean isTouchingPaddle(){
-       // return isTouching(Paddle.class);
-   // }
+    
     
     /**
      * Check to see if the ball should be restarted.
@@ -167,7 +182,7 @@ public class Ball extends Actor
      */
     private void init()
     {
-        speed = 2;
+        Speed = 2;
         delay = DELAY_TIME;
         hasBouncedHorizontally = false;
         hasBouncedVertically = false;

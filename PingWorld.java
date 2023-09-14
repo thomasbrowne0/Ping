@@ -13,13 +13,13 @@ public class PingWorld extends World
     private static final int WORLD_HEIGHT = 700;
     private Paddle playerPaddle;
     private RoboPaddle robotPaddle;
+
     /**
      * Constructor for objects of class PingWorld.
      */
     public PingWorld(boolean gameStarted)
     {
         super(WORLD_WIDTH, WORLD_HEIGHT, 1); 
-        
         if (gameStarted)
         {
             GreenfootImage background = getBackground();
@@ -33,17 +33,16 @@ public class PingWorld extends World
         {
             Greenfoot.setWorld(new IntroWorld());
         }
-        
- 
-    }
-
-    private void spawnPlayerPaddle(){
-        playerPaddle = new Paddle(100,20);
-        addObject(playerPaddle, WORLD_WIDTH / 2, WORLD_HEIGHT - 50);
     }
     
+    private void spawnPlayerPaddle(){
+    playerPaddle = new Paddle(100,20);
+    addObject(playerPaddle, WORLD_WIDTH/2, WORLD_HEIGHT - 50);
+}
+
     private void spawnRobotPaddle(){
-        robotPaddle = new RoboPaddle(100,20);
-        addObject(robotPaddle, Greenfoot.getRandomNumber(WORLD_WIDTH), WORLD_HEIGHT - 650);
-    }
+    robotPaddle = new RoboPaddle(100,20);
+    addObject(robotPaddle,Greenfoot.getRandomNumber (WORLD_WIDTH), WORLD_HEIGHT - 650);
+}
+
 }
