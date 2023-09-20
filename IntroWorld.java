@@ -21,6 +21,7 @@ public class IntroWorld extends World
         GreenfootSound gfs = new GreenfootSound("musicbg.mp3");
             gfs.setVolume(35);
             gfs.play();
+
     }
     
     public void act()
