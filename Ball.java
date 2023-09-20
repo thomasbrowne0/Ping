@@ -19,9 +19,11 @@ public class Ball extends Actor
     private boolean hasBouncedVertically;
     private boolean hasBouncedFromPaddle;
     private boolean hasBouncedFromRoboPaddle;
+    private boolean hasBouncedFromCeiling;
     private int delay;
     private Paddle paddle;
     private int amountOfTimesHit = 0;
+    PingWorld thisGame;
     /**
      * Contructs the ball and sets it in motion!
      */
@@ -55,11 +57,12 @@ public class Ball extends Actor
         else
         {
             move(speed);
+            checkBounce(); //checks if the ball is hit from the ceiling or from playerpaddle
             checkBounceOffWalls();
             checkBounceOffCeiling();
             checkBounceOffPaddle();
             checkBounceOffRoboPaddle();
-            speedUpTheBall();
+            speedUpTheBall(); //after 10 hits, speeds up the ball, gamelevel also increases
             checkRestart();
         }
     }    
@@ -125,6 +128,7 @@ public class Ball extends Actor
             {
                 revertVertically();
                 Greenfoot.playSound("swoosh.mp3");
+                hasBouncedFromCeiling = true;   //set to true, so UFO cant bounce it back again on the ceiling after we scored on him
             }
         }
         else
@@ -133,6 +137,11 @@ public class Ball extends Actor
         }
     }
 
+    private void checkBounce(){ 
+        if (getY() >= 350){
+            hasBouncedFromCeiling = false; //after it reaches the middle of the screen, the ball can bounce on the UFO again
+        }
+    }
     
     public void checkBounceOffPaddle()
     {
@@ -149,11 +158,11 @@ public class Ball extends Actor
             hasBouncedFromPaddle = false;
         }
     }
-    
+  
     public void checkBounceOffRoboPaddle()
     {
         
-        if(getOneIntersectingObject(RoboPaddle.class) != null &&  !hasBouncedFromRoboPaddle)
+        if(getOneIntersectingObject(RoboPaddle.class) != null &&  !hasBouncedFromRoboPaddle && !hasBouncedFromCeiling)
           {
                 revertVertically();
                 Greenfoot.playSound("impact.mp3");
@@ -169,6 +178,7 @@ public class Ball extends Actor
     private void speedUpTheBall(){
         if (amountOfTimesHit >= 10){
             speed = speed + 1;
+            thisGame.gameLevel++;
             amountOfTimesHit = 0;
         }
     }
@@ -188,7 +198,7 @@ public class Ball extends Actor
             init();
             setLocation(getWorld().getWidth() / 2, getWorld().getHeight() / 2);
             Greenfoot.playSound("fail.mp3");
-            Greenfoot.setWorld(new GameOverWorld());
+            thisGame.lifeLevel--;
         }
     }
 

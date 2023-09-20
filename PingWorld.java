@@ -13,7 +13,8 @@ public class PingWorld extends World
     private static final int WORLD_HEIGHT = 700;
     private Paddle playerPaddle;
     private RoboPaddle robotPaddle;
-    
+    public static int gameLevel = 1;
+    public static int lifeLevel = 3;
     
 
     /**
@@ -28,9 +29,11 @@ public class PingWorld extends World
             background.setColor(Color.BLACK);
             // Create a new world with WORLD_WIDTHxWORLD_HEIGHT cells with a cell size of 1x1 pixels.
             addObject(new Ball(), WORLD_WIDTH/2, WORLD_HEIGHT/2);
+            GreenfootSound gfs = new GreenfootSound("musicbg.mp3");
+            gfs.setVolume(35);
+            gfs.play();
             spawnPlayerPaddle();
             spawnRobotPaddle();
-            
         }
         else
         {
@@ -51,4 +54,8 @@ public class PingWorld extends World
     addObject(robotPaddle,Greenfoot.getRandomNumber (WORLD_WIDTH), WORLD_HEIGHT - 650);
 }
 
+    public void act(){
+    showText("Game Level: " + gameLevel,90,690);
+    showText("Lives Left: " + lifeLevel,430,690);
+}
 }

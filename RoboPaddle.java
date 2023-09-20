@@ -1,5 +1,5 @@
 import greenfoot.*;
-
+import java.util.List;
 
 /**
  * A paddle is an object that goes back and forth. Though it would be nice if balls would bounce of it.
@@ -30,10 +30,24 @@ public class RoboPaddle extends Actor
     //setLocation(getX(0) + dx, get(600));
     public void act() 
     {
-        robotMovement();  
+        // automaticRobotMovement(); 
+        followingBall();
     }    
-  
-    private void robotMovement()
+      
+    private void followingBall(){
+        Ball b = moveForBall();
+        if(b != null){
+            turnTowards(b.getX(), 50);
+            move(1);
+        }
+    }
+    
+    private Ball moveForBall(){
+        List<Ball> bList = getObjectsInRange(700, Ball.class);
+        return bList.get(0);
+    }
+    
+    private void automaticRobotMovement() //moves the paddle automatically, places it on a random Y coordinate
     {
         move(2);
         if(getX()>= 499){
