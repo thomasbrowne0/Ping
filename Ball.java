@@ -199,6 +199,10 @@ public class Ball extends Actor
             setLocation(getWorld().getWidth() / 2, getWorld().getHeight() / 2);
             Greenfoot.playSound("fail.mp3");
             thisGame.lifeLevel--;
+            if (thisGame.lifeLevel == 0){
+                Greenfoot.setWorld(new GameOverWorld());
+                thisGame.lifeLevel = 3;
+            }
         }
     }
 

@@ -18,6 +18,9 @@ public class IntroWorld extends World
     {
         super(WORLD_WIDTH, WORLD_HEIGHT, 1); 
         GreenfootImage background = getBackground();
+        GreenfootSound gfs = new GreenfootSound("musicbg.mp3");
+            gfs.setVolume(35);
+            gfs.play();
     }
     
     public void act()

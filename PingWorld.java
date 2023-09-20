@@ -29,9 +29,6 @@ public class PingWorld extends World
             background.setColor(Color.BLACK);
             // Create a new world with WORLD_WIDTHxWORLD_HEIGHT cells with a cell size of 1x1 pixels.
             addObject(new Ball(), WORLD_WIDTH/2, WORLD_HEIGHT/2);
-            GreenfootSound gfs = new GreenfootSound("musicbg.mp3");
-            gfs.setVolume(35);
-            gfs.play();
             spawnPlayerPaddle();
             spawnRobotPaddle();
         }
