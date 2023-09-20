@@ -13,7 +13,7 @@ public class RoboPaddle extends Actor
     private int height;
     private int dx;
     private int paddleSpeed = 3;
-    private int randomY = Greenfoot.getRandomNumber(500)+ 40;
+    private int randomY = Greenfoot.getRandomNumber(400);
     
     /**
      * Constructs a new paddle with the given dimensions.
@@ -23,7 +23,7 @@ public class RoboPaddle extends Actor
         this.width = width;
         this.height = height;
         dx = 1;
-        createImage();
+        
     }
     //FOR SECOND PADDLE
     //tryChangeDirection();
@@ -37,7 +37,7 @@ public class RoboPaddle extends Actor
     {
         move(2);
         if(getX()>= 499){
-            setLocation (1,Greenfoot. getRandomNumber(randomY));
+            setLocation (1,Greenfoot. getRandomNumber(randomY)+40); //+40 so paddle is not half out of screen
         }
         
     }

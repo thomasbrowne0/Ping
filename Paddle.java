@@ -23,7 +23,7 @@ public class Paddle extends Actor
         this.width = width;
         this.height = height;
         dx = 1;
-        createImage();
+        
     }
     //FOR SECOND PADDLE
     //tryChangeDirection();
@@ -63,7 +63,7 @@ public class Paddle extends Actor
     private void createImage()
     {
         GreenfootImage image = new GreenfootImage(width, height);
-        image.setColor(Color.PINK);
+        image.setColor(Color.BLUE);
         image.fill();
         setImage(image);
     }

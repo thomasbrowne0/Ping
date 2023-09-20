@@ -13,6 +13,8 @@ public class PingWorld extends World
     private static final int WORLD_HEIGHT = 700;
     private Paddle playerPaddle;
     private RoboPaddle robotPaddle;
+    
+    
 
     /**
      * Constructor for objects of class PingWorld.
@@ -28,12 +30,16 @@ public class PingWorld extends World
             addObject(new Ball(), WORLD_WIDTH/2, WORLD_HEIGHT/2);
             spawnPlayerPaddle();
             spawnRobotPaddle();
+            
         }
         else
         {
             Greenfoot.setWorld(new IntroWorld());
         }
     }
+    
+
+    
     
     private void spawnPlayerPaddle(){
     playerPaddle = new Paddle(100,20);

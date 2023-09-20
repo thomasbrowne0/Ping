@@ -9,23 +9,25 @@ import greenfoot.*;
  */
 public class Ball extends Actor
 {
-    private static final int BALL_SIZE = 25;
+    private static final int BALL_SIZE = 20;
     private static final int BOUNCE_DEVIANCE_MAX = 5;
     private static final int STARTING_ANGLE_WIDTH = 90;
     private static final int DELAY_TIME = 100;
 
-    private int Speed;
+    private int speed;
     private boolean hasBouncedHorizontally;
     private boolean hasBouncedVertically;
+    private boolean hasBouncedFromPaddle;
+    private boolean hasBouncedFromRoboPaddle;
     private int delay;
     private Paddle paddle;
-
+    private int amountOfTimesHit = 0;
     /**
      * Contructs the ball and sets it in motion!
      */
     public Ball()
     {
-        createImage();
+        //createImage();
         init();
     }
 
@@ -52,10 +54,12 @@ public class Ball extends Actor
         }
         else
         {
-            move(Speed);
+            move(speed);
             checkBounceOffWalls();
             checkBounceOffCeiling();
             checkBounceOffPaddle();
+            checkBounceOffRoboPaddle();
+            speedUpTheBall();
             checkRestart();
         }
     }    
@@ -88,7 +92,7 @@ public class Ball extends Actor
     { 
         return (getY() >= getWorld().getHeight() - BALL_SIZE/2);
     }
-
+    
     /**
      * Check to see if the ball should bounce off one of the walls.
      * If touching one of the walls, the ball is bouncing off.
@@ -100,6 +104,7 @@ public class Ball extends Actor
             if (! hasBouncedHorizontally)
             {
                 revertHorizontally();
+                Greenfoot.playSound("swoosh.mp3");
             }
         }
         else
@@ -119,6 +124,7 @@ public class Ball extends Actor
             if (! hasBouncedVertically)
             {
                 revertVertically();
+                Greenfoot.playSound("swoosh.mp3");
             }
         }
         else
@@ -126,23 +132,50 @@ public class Ball extends Actor
             hasBouncedVertically = false;
         }
     }
+
     
     public void checkBounceOffPaddle()
     {
-        Actor paddle = getOneIntersectingObject(Paddle.class);
-        if(paddle != null)
+        
+        if(getOneIntersectingObject(Paddle.class) != null && !hasBouncedFromPaddle)
           {
-            if (! hasBouncedVertically)
-            {
                 revertVertically();
-            }
+                amountOfTimesHit++;
+                Greenfoot.playSound("impact.mp3");
+                hasBouncedFromPaddle = true;
         }
-        else
+        else if (getOneIntersectingObject(Paddle.class) == null) 
         {
-            hasBouncedVertically = false;
+            hasBouncedFromPaddle = false;
         }
     }
     
+    public void checkBounceOffRoboPaddle()
+    {
+        
+        if(getOneIntersectingObject(RoboPaddle.class) != null &&  !hasBouncedFromRoboPaddle)
+          {
+                revertVertically();
+                Greenfoot.playSound("impact.mp3");
+                hasBouncedFromRoboPaddle = true;
+        }
+        else if (getOneIntersectingObject(RoboPaddle.class) == null) 
+        {
+            hasBouncedFromRoboPaddle = false;
+        }
+    }
+    
+    
+    private void speedUpTheBall(){
+        if (amountOfTimesHit >= 10){
+            speed = speed + 1;
+            amountOfTimesHit = 0;
+        }
+    }
+    
+    //private boolean isTouchingPaddle(){
+       // return isTouching(Paddle.class);
+   // }
     
     /**
      * Check to see if the ball should be restarted.
@@ -154,6 +187,8 @@ public class Ball extends Actor
         {
             init();
             setLocation(getWorld().getWidth() / 2, getWorld().getHeight() / 2);
+            Greenfoot.playSound("fail.mp3");
+            Greenfoot.setWorld(new GameOverWorld());
         }
     }
 
@@ -168,7 +203,7 @@ public class Ball extends Actor
     }
 
     /**
-     * Bounces the bal back from a horizontal surface.
+     * Bounces the ball back from a horizontal surface.
      */
     private void revertVertically()
     {
@@ -182,7 +217,7 @@ public class Ball extends Actor
      */
     private void init()
     {
-        Speed = 2;
+        speed = 2;
         delay = DELAY_TIME;
         hasBouncedHorizontally = false;
         hasBouncedVertically = false;
